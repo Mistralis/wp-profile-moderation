@@ -1,7 +1,7 @@
 # WP Profile Moderation
 
 Do you run a forum with wpForo and have issues with inappropriate profile images being uploaded by users? This plugin can help you.
-When users upload profile images, we process them via Google Vision API Safe-search, which can recognise things like nudity. Displays a score against the user listing in WP Users admin. Periodically you can check if any scores are high and check out the images yourself. This plugin does not block or otherwise interfere with the users.
+When users upload profile images, we process them via Google Vision API Safe-search, which can recognise things like nudity. The results from the safe-search are shown a score against the user listing in WP Users admin. Periodically you can check if any scores are high and view the images yourself. This plugin does not block or otherwise interfere with the users uploads.
 
 v 0.1 is a proof of concept so is not featue rich, but I am open to suggestions! Mistral
 
@@ -52,7 +52,7 @@ NB: mouseover the score to see the full data for each category.
 - add alerts to admin when inappropriate images are found
 
 ## Support
-Please submit issues or suggestions via the project.
+Please submit issues or suggestions via the project. https://github.com/Mistralis/wp-profile-moderation
 
 ## License
 

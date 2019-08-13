@@ -8,7 +8,7 @@
  *
  * @wordpress-plugin
  * Plugin Name: WP Profile Moderation
- * Plugin URI:  https://example.com/plugin-name
+ * Plugin URI:  https://github.com/Mistralis/wp-profile-moderation
  * Description: wpForo companion plugin to moderate profile images via Google Vision API Safe-search. Displays a score against the user listing in WP Users admin. Google Vision API key required.
  * Version:     0.1
  * Author:      Mistral
