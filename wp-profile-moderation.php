@@ -32,7 +32,6 @@ function wp_profile_moderation_wpforo_update_profile_after($user) {
     wp_schedule_single_event(time(), 'wp_profile_moderation_check_image_callback', array($user['userid'], $avatarUrl));
 }
 
-
 /**
  * create and POST the API request
  * @param $userid
@@ -44,7 +43,7 @@ function wp_profile_moderation_check_image($userid, $avatarUrl) {
     if (!$apikey) return;
     $avatarUrl = wp_profile_moderation_protocol($avatarUrl); // get us a usable URL. The URL must be accessible on the web!
 
-    // this is a predefined json string we can pass to Google Vision. We only check the safe-search feature.
+    // this is a predefined json string we can pass to Google Vision. We only implement the safe-search feature.
     $json = '{
               "requests": [
                 {
@@ -87,9 +86,8 @@ function wp_profile_moderation_check_image($userid, $avatarUrl) {
     $result['score'] = $score[0];
     $result['response'] = $score[1];
 
-    // store as user_meta, replacing any previous values
+    // store as user_meta
     update_user_meta($userid, 'wp_profile_moderation_avatar_response', $result);
-
 }
 
 /**
@@ -149,7 +147,7 @@ function wp_profile_moderation_print_r($my_array) {
 // to style the tool tip we need these styles
 add_action('admin_enqueue_scripts', 'wp_profile_moderation_load_custom_wp_admin_style');
 function wp_profile_moderation_load_custom_wp_admin_style() {
-    wp_register_style('custom_wp_admin_css', get_stylesheet_directory_uri() . '/admin_style.css', false, '1.0.0');
+    wp_register_style('custom_wp_admin_css', plugin_dir_url(__FILE__) . 'admin_style.css', false, '1.0.0');
     wp_enqueue_style('custom_wp_admin_css');
 }
 
@@ -165,7 +163,9 @@ add_action('manage_users_custom_column', 'wp_profile_moderation_show_user_id_col
 function wp_profile_moderation_show_user_id_column_content($value, $column_name, $user_id) {
     if ('profile_image_moderation' == $column_name) {
         $user_image_result = get_user_meta($user_id, 'wp_profile_moderation_avatar_response', true);
-        return '<a href="#" class="tooltip">' . $user_image_result['score'] . '<span>' . $user_image_result['response'] . '</span></a>';
+        $value=($user_image_result != '')?$user_image_result['response']:'';
+        $score=($user_image_result != '')?$user_image_result['score']:'';
+        return '<a href="#" class="tooltip">' . $score . '<span>' . $value . '</span></a>';
     }
 }
 
@@ -211,9 +211,8 @@ function wp_profile_moderation_create_menu() {
     add_action('admin_init', 'wp_profile_moderation_register_settings');
 }
 
-
+//register our settings
 function wp_profile_moderation_register_settings() {
-    //register our settings
     register_setting('wp_profile_moderation-settings-group', 'wp_profile_moderation_google_vision_api_key');
 }
 
